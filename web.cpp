@@ -60,6 +60,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "ArgumentManager.h"
+#include <fstream>
 
 // A structure to represent an adjacency list node
 struct AdjListNode
@@ -142,22 +144,39 @@ void printGraph(struct Graph* graph)
 }
 
 // Driver program to test above functions
-int main()
+int main(int argc, char* argv[])
 {
 	// create the graph given in above fugure
-	int V = 5;
-	struct Graph* graph = createGraph(V);
-	addEdge(graph, 0, 1);
-	addEdge(graph, 0, 4);
-	addEdge(graph, 1, 2);
-	addEdge(graph, 1, 3);
-	addEdge(graph, 1, 4);
-	addEdge(graph, 2, 3);
-	addEdge(graph, 3, 4);
+	//int V = 5;
+	//struct Graph* graph = createGraph(V);
+	//addEdge(graph, 0, 1);
+	//addEdge(graph, 0, 4);
+	//addEdge(graph, 1, 2);
+	//addEdge(graph, 1, 3);
+	//addEdge(graph, 1, 4);
+	//addEdge(graph, 2, 3);
+	//addEdge(graph, 3, 4);
 
-	// print the adjacency list representation of the above graph
-	printGraph(graph);
-
+	//// print the adjacency list representation of the above graph
+	//printGraph(graph);
+	/*if (argc < 2) {
+		std::cerr << "Usage: spellchecker inputfile=input.txt" << std::endl;
+		return -1;
+	}
+	ArgumentManager am(argc, argv);
+	const std::string script = am.get("script");
+	std::cout << "input script file name is " << script << std::endl;*/
+	ifstream input("input.txt");
+	//ifstream input(script);
+	string line;
+	while (input >> line) {
+		if (line.substr(0, 7) == "<a href") {
+			int file = line.find_first_of("\"");
+		}
+	}
+	
 	system("pause");
 	return 0;
 }
+
+//implement function for exploregraph
