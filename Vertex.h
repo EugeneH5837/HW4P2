@@ -45,6 +45,7 @@ public:
 	LinkedList<Vertex*> adjlist;
 	int getCount();
 	int indegree;
+	int outdegree;
 private:
 	bool IsActive;
 	bool IsUsable;
