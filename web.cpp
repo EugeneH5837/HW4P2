@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 		}
 	}	
 	int vertices = vertcount.count;
-	cout << "VERTICES" << vertices << endl;
+	cout << "NEWEDIT" << vertices << endl;
 	/*LinkedList<string> b;
 	b.insertion("p");
 	b.display();
