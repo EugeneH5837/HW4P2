@@ -1,164 +1,26 @@
-//#include <iostream>
-//#include <fstream>
-//#include <list>
-//using namespace std;
-//
-//int main(int argc, char* argv[]) {
-//	int p = 0;
-//	return 0;
-//}
-//
-//class graphtype {
-//public:
-//	bool isEmpty();
-//	void creategraph(string filename);
-//	void clearGraph();
-//	void printGraph();
-//	void depthFirstTraversal();
-//	void dftatVertex(int vertex);
-//	void breadthFirstTraversal();
-//	graphtype(int size = 0);
-//	~graphtype();
-//protected:
-//	int maxsize;
-//	int gsize;
-//	list<int> *graph;
-//private: 
-//	void dft(int v, bool visisted[]);
-//};
-//
-//bool graphtype::isEmpty() {
-//	return (gsize == 0);
-//}
-//
-//void graphtype::creategraph(string filename) {
-//	ifstream infile(filename);
-//	char filename[50];
-//
-//	int vertex;
-//	int adjacentvertex;
-//	if (gsize != 0) {
-//		clearGraph();
-//	}
-//
-//	if (!infile) {
-//		cout << "cannot open file" << endl;
-//		return;
-//	}
-//
-//	infile >> gsize;
-//	for (int i = 0; i < gsize; i++) {
-//		infile >> vertex;
-//		infile >> adjacentvertex;
-//		while (adjacentvertex != -999) {
-//			//graph[vertex].insert(adjacentvertex);
-//		}
-//	}
-//}
-
-// A C Program to demonstrate adjacency list representation of graphs
-
+#include <iostream>
+#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include "ArgumentManager.h"
-#include <fstream>
+#include "LinkedList.h"
+#include <list>
+using namespace std;
 
-// A structure to represent an adjacency list node
-struct AdjListNode
-{
-	int dest;
-	struct AdjListNode* next;
-};
-
-// A structure to represent an adjacency list
-struct AdjList
-{
-	struct AdjListNode *head;  // pointer to head node of list
-};
-
-// A structure to represent a graph. A graph is an array of adjacency lists.
-// Size of array will be V (number of vertices in graph)
-struct Graph
-{
-	int V;
-	struct AdjList* array;
-};
-
-// A utility function to create a new adjacency list node
-struct AdjListNode* newAdjListNode(int dest)
-{
-	struct AdjListNode* newNode =
-		(struct AdjListNode*) malloc(sizeof(struct AdjListNode));
-	newNode->dest = dest;
-	newNode->next = NULL;
-	return newNode;
-}
-
-// A utility function that creates a graph of V vertices
-struct Graph* createGraph(int V)
-{
-	struct Graph* graph = (struct Graph*) malloc(sizeof(struct Graph));
-	graph->V = V;
-
-	// Create an array of adjacency lists.  Size of array will be V
-	graph->array = (struct AdjList*) malloc(V * sizeof(struct AdjList));
-
-	// Initialize each adjacency list as empty by making head as NULL
-	int i;
-	for (i = 0; i < V; ++i)
-		graph->array[i].head = NULL;
-
-	return graph;
-}
-
-// Adds an edge to an undirected graph
-void addEdge(struct Graph* graph, int src, int dest)
-{
-	// Add an edge from src to dest.  A new node is added to the adjacency
-	// list of src.  The node is added at the begining
-	struct AdjListNode* newNode = newAdjListNode(dest);
-	newNode->next = graph->array[src].head;
-	graph->array[src].head = newNode;
-
-	// Since graph is undirected, add an edge from dest to src also
-	newNode = newAdjListNode(src);
-	newNode->next = graph->array[dest].head;
-	graph->array[dest].head = newNode;
-}
-
-// A utility function to print the adjacenncy list representation of graph
-void printGraph(struct Graph* graph)
-{
-	int v;
-	for (v = 0; v < graph->V; ++v)
-	{
-		struct AdjListNode* pCrawl = graph->array[v].head;
-		printf("\n Adjacency list of vertex %d\n head ", v);
-		while (pCrawl)
-		{
-			printf("-> %d", pCrawl->dest);
-			pCrawl = pCrawl->next;
-		}
-		printf("\n");
-	}
-}
-
+void exploregraph(string filename);
+void openfiletest(string filename);
+// A C Program to demonstrate adjacency list representation of graphs
+LinkedList<string> vertcount;
 // Driver program to test above functions
+//maybe make global graph 
+//add isreachable algorithm to check for any isolated nodes
 int main(int argc, char* argv[])
 {
-	// create the graph given in above fugure
-	//int V = 5;
-	//struct Graph* graph = createGraph(V);
-	//addEdge(graph, 0, 1);
-	//addEdge(graph, 0, 4);
-	//addEdge(graph, 1, 2);
-	//addEdge(graph, 1, 3);
-	//addEdge(graph, 1, 4);
-	//addEdge(graph, 2, 3);
-	//addEdge(graph, 3, 4);
+	 //create the graph given in above fugure
+	
 
-	//// print the adjacency list representation of the above graph
-	//printGraph(graph);
+	// print the adjacency list representation of the above graph
+	
 	/*if (argc < 2) {
 		std::cerr << "Usage: spellchecker inputfile=input.txt" << std::endl;
 		return -1;
@@ -166,17 +28,110 @@ int main(int argc, char* argv[])
 	ArgumentManager am(argc, argv);
 	const std::string script = am.get("script");
 	std::cout << "input script file name is " << script << std::endl;*/
+
 	ifstream input("input.txt");
 	//ifstream input(script);
 	string line;
-	while (input >> line) {
-		if (line.substr(0, 7) == "<a href") {
-			int file = line.find_first_of("\"");
+	while (getline(input,line) ){
+		//cout << line << endl;
+		//if (line.substr(0, 7) == "<a href") {
+		//	int file = line.find_first_of("\"");
+		//	string c = line.substr(file + 1);
+		//	int file2 = c.find_last_of("\"");
+		//	c.erase(file2, c.length());
+		//	//cout << c<<endl;
+		//}
+		if (line.substr(0, 7) == "explore") {
+			for (int i = 0; i < line.length(); i++) {
+				if (line[i] == '(' || line[i] == ')' || line[i] == '\'') {
+					line[i] = ' ';
+				 }
+				
+			}
+			stringstream test(line);
+			string func, file;
+			test >> func >> file;
+			exploregraph(file);
 		}
+	}	
+	int vertices = vertcount.count;
+	cout << "VERTICES" << vertices << endl;
+	/*LinkedList<string> b;
+	b.insertion("p");
+	b.display();
+	list<int> *test;
+	test[0].push_back(2);*/
+	vertcount.display();
+	LinkedList<string> b;
+	b.insertion("1.txt");
+	if (!b.find("2.txt")) {
+		//cout << "not found";
 	}
-	
+	else {
+		//cout << "found";
+	}
 	system("pause");
 	return 0;
 }
 
+void exploregraph(string filename) {
+	string line;
+	ifstream input(filename);
+	while (getline(input, line)) {
+		openfiletest(line);
+	}
+}
+
+void openfiletest(string filename) {
+	ifstream input(filename);
+	if (!vertcount.find(filename)) {
+		vertcount.insertion(filename);
+	}
+	string line;
+	//cout << "FILE "<<filename << endl;
+	while (getline(input, line)) {
+		if (line.substr(0, 7) == "<a href") {
+			int file = line.find_first_of("\"");
+			string c = line.substr(file + 1);
+			int file2 = c.find_last_of("\"");
+			c.erase(file2, c.length());
+			if (!vertcount.find(c)) {
+				vertcount.insertion(c);
+			}
+			//cout << c<<endl;
+		}
+	}
+}
 //implement function for exploregraph
+//class edge {
+//
+//};
+//class node {
+//	LinkedList<edge> adjlist;
+//};
+//
+//class graph {
+//	int vertices;
+//	LinkedList<string> *adj;
+//	AdjList* array;
+//	graph();
+//	void addEdge(int v, int w);
+//};
+//
+//void graph::addEdge(int v, int w) {
+//
+//}
+//
+//graph::graph() {
+//
+//	adj = new LinkedList<string>;
+//}
+//
+//struct AdjacentListNode {
+//	int destination;
+//	AdjacentListNode *next;
+//};
+//struct AdjList {
+//	AdjacentListNode *nodelist;
+//};
+//
