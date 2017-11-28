@@ -130,6 +130,7 @@ void PrintLLGraph(LinkedList<Vertex*> VertexList) {
 		current->info->PrintVertexsLL();
 		current = current->next;
 	}
+	cout << endl;
 }
 void exploregraph(string filename) {
 	string line;
@@ -229,12 +230,13 @@ void Vertex::PrintVertexs()
 void Vertex::PrintVertexsLL() {
 	cout << "Vertex\tLinks to\n-----\t--------\n";
 	cout << GetName();  //vertex
-	cout << " indegree " << indegree;
+	//cout << " indegree " << indegree;
 	Node<Vertex*> *current = adjlist.head;
 	while (current != NULL) {
 		cout << "\t" << current->info->GetName() << " ";
 		current = current->next;
 	}
+	cout << endl;
 	cout << endl;
 }
 int Vertex::getCount() {
