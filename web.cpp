@@ -13,9 +13,7 @@ void openfiletest(string filename);
 int globalEdgecount(LinkedList<Vertex*> VertexList);
 bool ExistsinLL(string VertexName, LinkedList<Vertex*> VertexList);
 void PrintLLGraph(LinkedList<Vertex*> VertexList);
-// A C Program to demonstrate adjacency list representation of graphs
 LinkedList<string> vertcount;
-// Driver program to test above functions
 //maybe make global graph 
 //add isreachable algorithm to check for any isolated nodes
 int main(int argc, char* argv[])
@@ -79,6 +77,7 @@ int main(int argc, char* argv[])
 						}
 						if (!ExistsinLL(newline, Graph)) {
 							temp2 = new Vertex(newline);
+							temp2->outdegree++;
 							Graph.insertion(temp2);
 							Node<Vertex*> *current = Graph.head;
 							while (current != NULL) {
@@ -93,6 +92,7 @@ int main(int argc, char* argv[])
 							Node<Vertex*> *current = Graph.head;
 							while (current != NULL) {
 								if (newline == current->info->GetName()) {
+									current->info->outdegree++;
 									//current->info->AddNewVertexLL(temp);
 									temp->indegree++;
 									current->info->adjlist.insertion(temp);
@@ -114,6 +114,9 @@ int main(int argc, char* argv[])
 	system("pause");
 	return 0;
 }
+
+
+
 bool ExistsinLL(string VertexName, LinkedList<Vertex*> VertexList) {
 	Node<Vertex*> *temp = VertexList.head;
 	while (temp != NULL) {
@@ -131,6 +134,18 @@ void PrintLLGraph(LinkedList<Vertex*> VertexList) {
 		current = current->next;
 	}
 	cout << endl;
+}
+void findisolated(LinkedList<Vertex*> graph) {
+
+}
+
+void findtopthree(LinkedList<Vertex*> graph) {
+	Node<Vertex*> *current = graph.head;
+	string top, top2, top3;
+	while (current != NULL) {
+		current->info->indegree;
+		current = current->next;
+	}
 }
 void exploregraph(string filename) {
 	string line;
@@ -230,7 +245,8 @@ void Vertex::PrintVertexs()
 void Vertex::PrintVertexsLL() {
 	cout << "Vertex\tLinks to\n-----\t--------\n";
 	cout << GetName();  //vertex
-	//cout << " indegree " << indegree;
+	cout << " indegree " << indegree<<endl;
+	cout << "outdegree " << outdegree << endl;
 	Node<Vertex*> *current = adjlist.head;
 	while (current != NULL) {
 		cout << "\t" << current->info->GetName() << " ";
@@ -239,6 +255,9 @@ void Vertex::PrintVertexsLL() {
 	cout << endl;
 	cout << endl;
 }
+
+
+
 int Vertex::getCount() {
 	return adjlist.count;
 }
