@@ -13,6 +13,8 @@ void openfiletest(string filename);
 int globalEdgecount(LinkedList<Vertex*> VertexList);
 bool ExistsinLL(string VertexName, LinkedList<Vertex*> VertexList);
 void PrintLLGraph(LinkedList<Vertex*> VertexList);
+void findtopthree(LinkedList<Vertex*> graph);
+void findisolated(LinkedList<Vertex*> graph);
 LinkedList<string> vertcount;
 //maybe make global graph 
 //add isreachable algorithm to check for any isolated nodes
@@ -38,7 +40,7 @@ int main(int argc, char* argv[])
 	//ifstream input(script);
 	string line;
 	while (getline(input,line) ){
-		cout << line << endl;
+		//cout << line << endl;
 		if (line.substr(0, 7) == "explore") {
 			for (int i = 0; i < line.length(); i++) {
 				if (line[i] == '(' || line[i] == ')' || line[i] == '\'') {
@@ -55,13 +57,20 @@ int main(int argc, char* argv[])
 				ifstream fileinput(newline);
 				string theline;
 				cout << "FILE " << newline << endl;
+				if (!ExistsinLL(newline, Graph)) {
+					temp = new Vertex(newline);
+					Graph.insertion(temp);
+				}
 				while (getline(fileinput, theline)) {
+
 					if (theline.substr(0, 7) == "<a href") {
 						int file = theline.find_first_of("\"");
 						string c = theline.substr(file + 1);
 						int file2 = c.find_last_of("\"");
 						c.erase(file2, c.length());
 						if (!ExistsinLL(c, Graph)) {
+							cout << "here" << endl;
+							cout << c << endl;
 							temp = new Vertex(c);
 							Graph.insertion(temp);
 						}
@@ -100,7 +109,7 @@ int main(int argc, char* argv[])
 								current = current->next;
 							}
 						}
-						cout << c << endl;
+						//cout << c << endl;
 					}
 				}
 			}
@@ -109,8 +118,10 @@ int main(int argc, char* argv[])
 	}	
 	PrintLLGraph(Graph);
 	cout << endl;
-	cout << "n " << Graph.count << endl;
-	cout << "m " << globalEdgecount(Graph) << endl;
+	cout << "n=" << Graph.count << endl;
+	cout << "m=" << globalEdgecount(Graph) << endl;
+	findtopthree(Graph);
+	findisolated(Graph);
 	system("pause");
 	return 0;
 }
@@ -136,14 +147,45 @@ void PrintLLGraph(LinkedList<Vertex*> VertexList) {
 	cout << endl;
 }
 void findisolated(LinkedList<Vertex*> graph) {
-
+	Node<Vertex*> *current = graph.head;
+	while (current != NULL) {
+		if (current->info->indegree == 0) {
+			cout << "isolated=" << current->info->GetName()<<endl;
+		}
+		current = current->next;
+	}
 }
 
 void findtopthree(LinkedList<Vertex*> graph) {
 	Node<Vertex*> *current = graph.head;
-	string top, top2, top3;
+	int top = 0;
+	int top2 = 0;
+	int top3 = 0;
+	int numberreadout;
 	while (current != NULL) {
-		current->info->indegree;
+		//cout << current->info->GetName()<<current->info->indegree << endl;
+		if (current->info->indegree > top) {
+			top3 = top2;
+			top2 = top;
+			top = current->info->indegree;
+		}
+		else if (current->info->indegree > top2) {
+			top3 = top2;
+			top2 = current->info->indegree;
+		}
+		else if (current->info->indegree > top3) {
+			top3 = current->info->indegree;
+		}
+		current = current->next;
+	}
+	/*cout << top << endl;
+	cout << top2 << endl;
+	cout << top3 << endl;*/
+	current = graph.head;
+	while (current != NULL) {
+		if (current->info->indegree == top || current->info->indegree == top2 || current->info->indegree == top3) {
+			cout << current->info->GetName() << endl;
+		}
 		current = current->next;
 	}
 }
