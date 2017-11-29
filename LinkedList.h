@@ -11,11 +11,10 @@ struct Node {
 public:
 	T info;
 	Node<T> *next;
-	Node<T> *prev;
 	Node();
 	Node(T data) : info(data) {
 		next = NULL;
-		prev = NULL;
+		//prev = NULL;
 	}
 };
 
@@ -58,13 +57,11 @@ void LinkedList<T>::insertion(T item) {
 
 	if (tail == NULL) {
 		temp->next = tail;
-		temp->prev = head;
 
 		head = temp;
 		tail = temp;
 	}
 	else {
-		temp->prev = tail;
 		tail->next = temp;
 		tail = temp;
 	}
