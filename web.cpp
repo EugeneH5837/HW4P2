@@ -109,8 +109,8 @@ int main(int argc, char* argv[])
 	}	
 	PrintLLGraph(Graph);
 	cout << endl;
-	cout << "Number of Vertices " << Graph.count << endl;
-	cout << "Number of Edges " << globalEdgecount(Graph) << endl;
+	cout << "n " << Graph.count << endl;
+	cout << "m " << globalEdgecount(Graph) << endl;
 	system("pause");
 	return 0;
 }
@@ -245,8 +245,8 @@ void Vertex::PrintVertexs()
 void Vertex::PrintVertexsLL() {
 	cout << "Vertex\tLinks to\n-----\t--------\n";
 	cout << GetName();  //vertex
-	cout << " indegree " << indegree<<endl;
-	cout << "outdegree " << outdegree << endl;
+	cout << " indegree " << indegree;
+	cout << " outdegree " << outdegree << endl;
 	Node<Vertex*> *current = adjlist.head;
 	while (current != NULL) {
 		cout << "\t" << current->info->GetName() << " ";
